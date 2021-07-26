@@ -9,26 +9,25 @@ const GoogleAuthentication = () => {
   const onLoginSuccess = (res) => {
     //profile information of user trying to login
     var profile = res.profileObj;
+    console.log(profile);
 
     axios
       .get(`http://localhost:8080/login/getUser/${profile.email}`)
       .then((response) => {
-        // console.log(response.data);
-        // localStorage.setItem("user", response.data.name);
-        // localStorage.setItem("role", response.data.role);
-        // const username = response.data.name;
-        // const role = response.data.role;
-        // console.log("name :" + username + " role :" + role);
+        console.log(response.data);
+        localStorage.setItem("userid", response.data.userid);
+        localStorage.setItem("username", response.data.name);
+        localStorage.setItem("role", response.data.role);
 
         //if response is not null, then the user is registered user. render uer to home page
         if (response.data) {
-          // console.log("registered user");
+          console.log("registered user");
           setShowloginButton(false);
         } else {
           //user is not registered user
           console.log("not registered");
           setShowloginButton(true);
-          alert("This Email Id is not registered. Try using another Email Id.");
+          alert("This Email Id is not registered. Try using another Email Id");
         }
       })
       .catch((error) => console.log(error));

@@ -54,7 +54,7 @@ export default function SlotAddedByMentor() {
       .then((response) => {
         alert(response.data);
       });
-    // window.location.reload();
+    window.location.reload();
     GetFreeSlotsAddedByMentor();
   }
 
@@ -71,6 +71,7 @@ export default function SlotAddedByMentor() {
           end: response.data.end_time,
         };
       });
+    // window.location.reload();
   }
 
   useEffect(() => {
@@ -81,6 +82,9 @@ export default function SlotAddedByMentor() {
 
   return (
     <div>
+      <div>
+        <h3>Free Slots</h3>
+      </div>
       <TableContainer component={Paper} className={classes.tableContainer}>
         <Table className={classes.table} aria-label="simple table">
           <TableHead>

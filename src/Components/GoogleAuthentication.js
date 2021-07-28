@@ -1,6 +1,6 @@
 import GoogleLogin from "react-google-login";
 import React, { useState } from "react";
-import Home from "./Home";
+import Home from "./Pages/Home";
 import axios from "axios";
 
 const GoogleAuthentication = () => {

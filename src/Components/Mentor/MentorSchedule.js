@@ -5,14 +5,18 @@ import styled from "styled-components";
 import React, { useState } from "react";
 import TextField from "@material-ui/core/TextField";
 import axios from "axios";
-import CustomPaginationActionsTable from "./CustomPaginationActionsTable";
 import SlotAddedByMentor from "./SlotAddedByMentor";
 import Bookedslots from "./Bookedslots";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import addDays from "date-fns/addDays";
+import { TimePicker } from "@progress/kendo-react-dateinputs";
+// import TimePicker from "react-time-picker";
 
 const AboutStyles = styled.div`
   text-align: center;
   .maincont {
-    margin-top: 7rem;
+    margin-top: 3rem;
     margin-bottom: 5rem;
   }
   .container {
@@ -28,10 +32,16 @@ const AboutStyles = styled.div`
   .buttoncol {
     align-self: flex-end;
   }
+  .datepicker {
+    margin-top: 2rem;
+  }
+  .shapeme {
+    height: 5rem;
+  }
 `;
 
 const MentorSchedule = () => {
-  const [selectDate, setselectDate] = useState("");
+  const [selectDate, setselectDate] = useState(null);
   const [selectStartTime, setselectStartTime] = useState("");
   const [selectEndTime, setselectEndTime] = useState("");
   const [table, settable] = useState(true);
@@ -46,9 +56,9 @@ const MentorSchedule = () => {
           <div className="container">
             <div className="datecol">
               <h3>Date</h3>
-              {/* <Dateselect />               */}
+              {/* <Dateselect /> */}
               <form>
-                <TextField
+                {/* <TextField
                   id="date"
                   type="date"
                   value={selectDate}
@@ -57,14 +67,26 @@ const MentorSchedule = () => {
                   InputLabelProps={{
                     shrink: true,
                   }}
-                />
+                /> */}
+                <div className="datepicker">
+                  <DatePicker
+                    name="startDate"
+                    selected={selectDate}
+                    onChange={(date) => setselectDate(date)}
+                    dateFormat="dd/MM/yyyy"
+                    minDate={new Date()}
+                    maxDate={addDays(new Date(), 7)}
+                    isClearable={true}
+                    placeholderText="dd/mm/yyyy"
+                  />
+                </div>
                 {console.log(selectDate)}
               </form>
             </div>
             <div className="timecol">
               <h3>Start time</h3>
               {/* <Timeselect /> */}
-              <form>
+              <form className="shapeme">
                 <TextField
                   id="time"
                   type="time"
@@ -78,6 +100,11 @@ const MentorSchedule = () => {
                     step: 300, // 5 min
                   }}
                 />
+                {/* <TimePicker
+                  onChange={(time) => setselectStartTime(time.target.value)}
+                  value={new Date()}
+                /> */}
+
                 {console.log(selectStartTime)}
               </form>
             </div>
@@ -118,12 +145,14 @@ const MentorSchedule = () => {
       <div>
         {/* <CustomPaginationActionsTable /> */}
         <div style={{ display: "flex" }}>
-          <div style={{ marginLeft: "150px" }}>
+          {/* <div style={{ marginLeft: "150px" }}>
             <h2>Free Slots</h2>
-          </div>
+          </div> */}
           <button
             style={{ marginLeft: "100px", height: "50px" }}
-            onClick={() => settable(!table)}
+            onClick={() => {
+              settable(!table);
+            }}
           >
             table 2
           </button>

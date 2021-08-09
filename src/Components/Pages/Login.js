@@ -5,6 +5,8 @@ import GoogleLogin from "react-google-login";
 import { useHistory } from "react-router";
 import axios from "axios";
 
+import Error from "../Error";
+
 const AppStyles = styled.div`
   .container{
     display:flex;
@@ -58,25 +60,23 @@ const Login = () => {
     axios
       .get(`http://localhost:8080/login/getUser/${profile.email}`)
       .then((response) => {
+        console.log(response);
         console.log(response.data);
         localStorage.setItem("userid", response.data.userid);
         localStorage.setItem("username", response.data.name);
         localStorage.setItem("displayname", profile.givenName);
         localStorage.setItem("role", response.data.role);
 
-        //if response is not null, then the user is registered user. render uer to home page
-        if (response.data) {
-          history.push("/");
-          console.log("registered user");
-          //   setShowloginButton(false);
-        } else {
-          //user is not registered user
-          console.log("not registered");
-          //   setShowloginButton(true);
+        // render uer to home page
+        history.push("/");
+        console.log("registered user");
+      })
+      .catch(function (error) {
+        if (error.response.request.status == 401) {
           alert("This Email Id is not registered. Try using another Email Id");
         }
-      })
-      .catch((error) => console.log(error));
+        <Error />;
+      });
   };
 
   const onLoginFailure = (res) => {

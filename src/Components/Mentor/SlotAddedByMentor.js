@@ -48,9 +48,9 @@ export default function SlotAddedByMentor() {
     setPage(0);
   };
 
-  function DeleteSchedule(schedduleid) {
+  function DeleteSchedule(scheduleid) {
     axios
-      .delete(`http://localhost:8080/schedule/mentor/deleteslot/${schedduleid}`)
+      .delete(`http://localhost:8080/schedule/mentor/deleteslot/${scheduleid}`)
       .then((response) => {
         alert(response.data);
       });
@@ -60,7 +60,11 @@ export default function SlotAddedByMentor() {
 
   function GetFreeSlotsAddedByMentor() {
     axios
-      .get("http://localhost:8080/schedule/mentor/getslots/101")
+      .get(
+        `http://localhost:8080/schedule/mentor/getslots/${localStorage.getItem(
+          "userid"
+        )}`
+      )
       .then((response) => {
         console.log(response.data);
         setAns(response.data);
@@ -70,6 +74,11 @@ export default function SlotAddedByMentor() {
           start: response.data.start_time,
           end: response.data.end_time,
         };
+      })
+      .catch(function (error) {
+        if (error.response.request.status == 404) {
+          alert(error.response.request.message);
+        }
       });
     // window.location.reload();
   }
